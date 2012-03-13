@@ -8,7 +8,7 @@
 */
 
 
-class AWD_facebook_comments{
+class AWD_facebook_seo_comments_base{
 	/*----------------------------------------------------------*/
 	//Facebook
 	/*----------------------------------------------------------*/
@@ -174,7 +174,7 @@ class AWD_facebook_comments{
 		if($this->comments_url != ''){
 			if($this->wp_post_id != ''){			
 				//know if we want cache comments or not
-				if($this->AWD_facebook->plugin_option['comments_cache'] != '0' && $_REQUEST['action'] != 'clear_fb_cache'){
+				if($this->AWD_facebook->options['comments_cache'] != '0' && $_REQUEST['action'] != 'clear_fb_cache'){
 					$this->comments_array = get_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array', true);				
 					if(empty($this->comments_array)){
 						$this->get_comments_by_url();
