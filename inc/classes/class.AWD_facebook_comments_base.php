@@ -2,16 +2,14 @@
 /*
 *
 * Facebook comments class | AWD FCBK SEO comments
-* (C) 2011 AH WEB DEV
+* (C) 2012 AH WEB DEV
 * Hermann.alexandre@ahwebdev.fr
 *
 */
 
 
-class AWD_facebook_seo_comments_base{
-	/*----------------------------------------------------------*/
-	//Facebook
-	/*----------------------------------------------------------*/
+class AWD_facebook_comments_base
+{
 	/**
 	* Comments set url
 	* string
@@ -37,11 +35,7 @@ class AWD_facebook_seo_comments_base{
 	* string
 	*/
 	public $limit=0;
-	/*----------------------------------------------------------*/
 	
-	/*----------------------------------------------------------*/
-	//Wordpress
-	/*----------------------------------------------------------*/
 	/**
 	* Wordpress related Post id
 	*/
@@ -51,103 +45,111 @@ class AWD_facebook_seo_comments_base{
 	* array
 	*/
 	public $wp_comments_model = array();
-	/*----------------------------------------------------------*/
-	
 	
 	
 	/**
 	* Constructor
 	*/
-	public function __construct($AWD_facebook){
+	public function __construct($AWD_facebook)
+	{
 		global $AWD_facebook;
 		$this->comments_url = home_url();
 		$this->AWD_facebook = $AWD_facebook;
 	}
-	/*----------------------------------------------------------*/
 	/**
 	* FB API
 	*/
-	public function set_AWD_facebook(){
+	public function set_AWD_facebook()
+	{
 		global $AWD_facebook;
 		$this->AWD_facebook = $AWD_facebook;
 	}
-	/*----------------------------------------------------------*/	
 	/**
 	* Get comments Id by url
 	*/
-	public function get_comments_id_by_url(){
+	public function get_comments_id_by_url()
+	{
+		if($this->comments_url == '') 
+			return false;
 		$fql = "SELECT comments_fbid,commentsbox_count,comment_count FROM link_stat WHERE url='".$this->comments_url."'";
+		//$fql = "SELECT comments_fbid,commentsbox_count,comment_count FROM link_stat WHERE url='http://www.ahwebdev.fr/facebook-awd.html'";
 		try {
 			$fql_url_object = $this->AWD_facebook->fcbk->api(array('method'=>'fql.query','query'=>$fql));
-			if($fql_url_object[0]['comments_fbid'] !=''){
+			$this->comments_count = 0;
+			$this->comments_id = 0;
+			if(isset($fql_url_object[0]['comments_fbid'])){
 				$this->comments_id = $fql_url_object[0]['comments_fbid'];
 				$this->comments_count = $fql_url_object[0]['commentsbox_count'];
-				return true;	
 			}
+			return true;
 		}catch (FacebookApiException $e) {
-			return false;
+			return $e->getMessage();
 		}
 		return false;
 	}
-	/*----------------------------------------------------------*/
 	/**
 	* Get comments by Url.
 	*/
-	public function get_comments_by_url(){
+	public function get_comments_by_url()
+	{
 		//Make a query to test if something exist.
-		if($this->get_comments_id_by_url($this->comments_url)){
-			try {
-				$comments_from_url = $this->AWD_facebook->fcbk->api('/'.$this->comments_id.'/comments?limit='.$this->limit);
-				$this->comments_array = $comments_from_url['data'];
-				return true;
-			}catch (FacebookApiException $e) {
-				return false;
+		$response = $this->get_comments_id_by_url($this->comments_url);
+		if($response == true){
+			//if comments exists get them
+			if($this->comments_id > 0){
+				try {
+					$comments_from_url = $this->AWD_facebook->fcbk->api('/'.$this->comments_id.'/comments?limit='.$this->limit);
+					$this->comments_array = $comments_from_url['data'];
+					return true;
+				}catch (FacebookApiException $e) {
+					return $e->getMessage();
+				}
 			}
 		}
 		return false;
 	}
-	/*----------------------------------------------------------*/		
 	/**
 	* return the comment count
 	* Will be empty until get_comments_id_by_url() is called.
 	*/
-	public function get_comments_count(){
+	public function get_comments_count()
+	{
 		return $this->comments_count;
 	}
-	/*----------------------------------------------------------*/
 	/**
 	* update data
 	*/
-	public function update_cache($count=false){
+	public function update_cache($count=false)
+	{
 		update_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array', $this->comments_array);
 		update_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_count', $this->comments_count);
 	}
-	/*----------------------------------------------------------*/
 	/*
 	* clear data
 	*/
-	public function clear_cache(){
+	public function clear_cache()
+	{
 		$this->comments_array = array();
-		update_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array', '');
-		update_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_count', 0);
+		delete_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array');
+		delete_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_count');
 	}
-	/*----------------------------------------------------------*/
 	/**
 	* Delete a comment
 	*/
-	public function delete_comment($comment_id){
+	public function delete_comment($comment_id)
+	{
 			try {
 				if($this->AWD_facebook->fcbk->api('/'.$comment_id,'delete'))
 					return true;
 			}catch (FacebookApiException $e) {
-				return false;
+				return $e->getMessage();
 			}
 	}
-	/*----------------------------------------------------------*/
 	/**
 	* Post a comment
 	*/
-	public function post_comment($comment_to_post){
+	public function post_comment($comment_to_post)
+	{
     	if($comment_to_post){
 			if($comment_to_post != ''){
 				try {
@@ -161,8 +163,6 @@ class AWD_facebook_seo_comments_base{
 		}
 		return false;
 	}
-	/*----------------------------------------------------------*/
-
 
 
 	/**
@@ -175,25 +175,31 @@ class AWD_facebook_seo_comments_base{
 			if($this->wp_post_id != ''){			
 				//know if we want cache comments or not
 				if($this->AWD_facebook->options['comments_cache'] != '0' && $_REQUEST['action'] != 'clear_fb_cache'){
-					$this->comments_array = get_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array', true);				
+					$this->comments_array = get_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array', true);					
+					//TODO until there is no comments on the post
+					// the plugin will always try to get comments form facebook
+					// because here he think the comments are empty.
 					if(empty($this->comments_array)){
-						$this->get_comments_by_url();
-						$this->update_cache();
+						$reponse = $this->get_comments_by_url();
+						if($reponse === true)
+							$this->update_cache();
 					}
 				}else{
-					$this->get_comments_by_url();
+					$reponse = $this->get_comments_by_url();
 				}
 			}else{
-				$this->get_comments_by_url();
+				$reponse = $this->get_comments_by_url();
 			}
+			if($reponse !== true)
+				return $response;
+				
 			return $this->comments_array;
         }
         return false;
 	}
-	/*----------------------------------------------------------*/
 	/**
-	* Return the data fb comment formated for WP comment_array
-	*/
+	 * Return the data fb comment formated for WP comment_array
+	 */
 	public function wp_comments_data_model($comment,$comment_parent_id=0){
 		$new_fb_comment = "";
 		//get user from fb_uid
@@ -217,7 +223,6 @@ class AWD_facebook_seo_comments_base{
 		
 		return array("wp_comment"=>$new_fb_comment,'response_comments'=>$response_comment);
 	}
-	/*----------------------------------------------------------*/
 
 }
 ?>

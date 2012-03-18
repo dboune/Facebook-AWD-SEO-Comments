@@ -2,7 +2,7 @@
 /*
 *
 * Help settings Admin AWD FCBK
-* (C) 2011 AH WEB DEV
+* (C) 2012 AH WEB DEV
 * Hermann.alexandre@ahwebdev.fr
 *
 */
