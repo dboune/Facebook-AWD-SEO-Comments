@@ -61,13 +61,13 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 	}
 	public function admin_menu()
 	{
-		$this->plugin_admin_hook = add_submenu_page($this->AWD_facebook->plugin_slug, __('SEO Comments',$this->plugin_text_domain), __('SEO Comments',$this->plugin_text_domain), 'administrator', $this->AWD_facebook->plugin_slug.'_seo_comments', array($this->AWD_facebook,'admin_content'));
-		add_meta_box($this->AWD_facebook->plugin_slug."_seo_comments_settings", __('Settings',$this->plugin_text_domain), array(&$this,'plugin_form'), $this->plugin_admin_hook , 'normal', 'core');
-		add_meta_box($this->AWD_facebook->plugin_slug."_seo_comments_list", __('Manage comments',$this->plugin_text_domain), array(&$this,'seo_comments_list'), $this->plugin_admin_hook , 'normal', 'core');
+		$this->plugin_admin_hook = add_submenu_page($this->AWD_facebook->plugin_slug, __('SEO Comments',$this->plugin_text_domain), '<img src="'.$this->plugin_url_images.'facebook_seocom-mini.png" /> '.__('SEO Comments',$this->plugin_text_domain), 'administrator', $this->AWD_facebook->plugin_slug.'_seo_comments', array($this->AWD_facebook,'admin_content'));
+		add_meta_box($this->AWD_facebook->plugin_slug."_seo_comments_settings", __('Settings',$this->plugin_text_domain).' <img src="'.$this->plugin_url_images.'facebook_seocom-mini.png" />', array(&$this,'admin_form'), $this->plugin_admin_hook , 'normal', 'core');
+		add_meta_box($this->AWD_facebook->plugin_slug."_seo_comments_list", __('Manage comments',$this->plugin_text_domain).' <img src="'.$this->plugin_url_images.'facebook_seocom-mini.png" />', array(&$this,'seo_comments_list'), $this->plugin_admin_hook , 'normal', 'core');
 
 		parent::admin_menu();
 	}
-	public function plugin_form()
+	public function admin_form()
 	{
 		?>
 		<div id="div_options_content">
@@ -240,9 +240,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 				$count +=  $this->AWD_facebook_comments->get_comments_count();
 		}
 		return $count;
-	}
-	
-	
+	}	
 	public function seo_comments_list()
 	{
     	$this->AWD_facebook_comments->set_AWD_facebook();

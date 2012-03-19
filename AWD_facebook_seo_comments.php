@@ -11,8 +11,8 @@ Text Domain: AWD_facebook_seo_comments
 Last modification: 18/03/2012
 */
 
-add_action('plugins_loaded', 'initial');
-function initial()
+add_action('plugins_loaded', 'initial_seo_comments');
+function initial_seo_comments()
 {
 	global $AWD_facebook;
 	$model_path = $AWD_facebook->get_plugins_model_path();
