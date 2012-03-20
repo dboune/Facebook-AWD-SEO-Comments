@@ -2,11 +2,11 @@
 /*
 Plugin Name: Facebook AWD Seo Comments
 Plugin URI: http://www.ahwebdev.fr
-Description: This plugin merge Facebook Comments with native Wordpress Comments System. Need Facebook AWD All in One plugin v0.9.7.7 to work.
+Description: This plugin merge Facebook Comments with native Wordpress Comments System. Need Facebook AWD All in One plugin.
 Version: 1.1
 Author: AHWEBDEV
 Author URI: http://www.ahwebdev.fr
-License: Copywrite AHWEBDEV
+License: AHWEBDEV
 Text Domain: AWD_facebook_seo_comments
 Last modification: 18/03/2012
 */
