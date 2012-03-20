@@ -163,7 +163,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		$_POST[$this->AWD_facebook->plugin_option_pref.'comments_cache'] == "hourly"){
 			//clear then add an event scheduled.
 			wp_clear_scheduled_hook('AWD_facebook_seo_comments_clear_cache');			
-			wp_schedule_event(time()+60, $_POST[$this->AWD_facebook->plugin_option_pref.'comments_cache'], 'AWD_facebook_seo_comments_clear_cache');
+			wp_schedule_event(time(), $_POST[$this->AWD_facebook->plugin_option_pref.'comments_cache'], 'AWD_facebook_seo_comments_clear_cache');
 		}
 	}
 	
@@ -173,7 +173,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 	//****************************************************************************************
 	public function clear_comments_cache()
 	{
-		$this->AWD_facebook->wpdb->query( "DELETE FROM ".$this->AWD_facebook->wpdb->postmeta." WHERE post_id !=0 AND meta_key = '_".$this->AWD_facebook->plugin_option_pref."cache_fb_comments_array' ");
+		$this->AWD_facebook->wpdb->query("DELETE FROM ".$this->AWD_facebook->wpdb->postmeta." WHERE post_id !='' AND (meta_key = '_".$this->AWD_facebook->plugin_option_pref."cache_fb_comments_array' OR meta_key = '_".$this->AWD_facebook->plugin_option_pref."cache_fb_comments_infos' OR meta_key = '_".$this->AWD_facebook->plugin_option_pref."cache_fb_comments_status') ");
 	}
 	public function print_hidden_fbcomments($post_id='')
 	{
@@ -188,7 +188,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		$html = "\n".'<!-- '.$this->plugin_name.' Hidden Comments -->'."\n";
 		$fb_comments = apply_filters('AWD_facebook_comments_array','',$post_id);
 		if(is_array($fb_comments)){
-			$html .= '<div class="AWD_fb_comments_hidden">';
+			$html .= '<div class="AWD_fb_comments_hidden" style="display:none;">';
 				foreach($fb_comments as $comment){
 					$html .= '<div class="AWD_fb_comment_hidden">';
 						$html .= '<span class="fb_comment_id">'.$comment->comment_ID.'</span> | ';
@@ -197,7 +197,6 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 					$html .= "</div><br />\n";
 				}
 			$html .= '</div>'."\n";
-			$html .= '<script type="text/javascript">jQuery(document).ready(function($){$(".AWD_fb_comments_hidden").hide();});</script>'."\n";
 		}
 		$html .='<!-- '.$this->plugin_name.' Hidden Comments End -->'."\n\n";
 		return $html;
@@ -226,12 +225,19 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 	public function set_comments_number($count, $post_id)
 	{
 		$this->AWD_facebook_comments->set_AWD_facebook();
+		$this->AWD_facebook_comments->wp_post_id = $post_id;
 		if($this->AWD_facebook->options['comments_count_merge'] == 1){
-			if($this->AWD_facebook_comments->get_comments_count() == ''){
-				$this->AWD_facebook_comments->comments_url = get_permalink($post_id);
+			$this->AWD_facebook_comments->comments_url = get_permalink($post_id);
+			if($this->AWD_facebook->options['comments_cache'] != "0" && $_REQUEST['action'] != 'clear_fb_cache'){
+				$this->AWD_facebook_comments->get_comments_from_cache();
+				if($this->AWD_facebook_comments->comments_status != 1){	
+					$this->AWD_facebook_comments->get_comments_id_by_url();
+				}
+			}else{
 				$this->AWD_facebook_comments->get_comments_id_by_url();
-			}
-			$count +=  $this->AWD_facebook_comments->comments_count;
+			}	
+			if($this->AWD_facebook_comments->get_comments_count() > 0)
+				$count +=  $this->AWD_facebook_comments->get_comments_count();
 		}
 		return $count;
 	}
