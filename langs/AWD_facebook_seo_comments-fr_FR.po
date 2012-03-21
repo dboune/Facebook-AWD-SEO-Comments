@@ -19,179 +19,163 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: AWD_facebook_seo_comments.php:149
-#: AWD_facebook_seo_comments.php:372
+#: inc/classes/class.AWD_facebook_seo_comments.php:64
 #@ AWD_facebook_seo_comments
 msgid "SEO Comments"
 msgstr "SEO Commentaires"
 
-#: AWD_facebook_seo_comments.php:156
+#: inc/classes/class.AWD_facebook_seo_comments.php:65
 #@ AWD_facebook_seo_comments
 msgid "Settings"
 msgstr "Réglages"
 
-#: AWD_facebook_seo_comments.php:157
+#: inc/classes/class.AWD_facebook_seo_comments.php:66
 #@ AWD_facebook_seo_comments
 msgid "Manage comments"
 msgstr "Gérer les commentaires"
 
-#: AWD_facebook_seo_comments.php:272
+#: inc/classes/class.AWD_facebook_seo_comments.php:250
 #, php-format
 #@ AWD_facebook_seo_comments
 msgid "It is currently not possible to remove comments from the comments box via the Graph API. You can moderate comments to hide/boost a comment or ban a user from the Developer App (http://developers.facebook.com/apps) or directly from the comments box (provided the appropriate open graph meta tags are added). You can see Comments here, but to manage them you must use tools from facebook. %sManage FB comments%s"
 msgstr "Il n&#39;est actuellement pas possible de supprimer des commentaires dans la boîte de commentaires via l&#39;API graph. Vous pouvez modérer les commentaires pour masquer / propulser un commentaire ou bannir un utilisateur à partir de l&#39;App Developer (http://developers.facebook.com/apps) ou directement à partir de la boîte de commentaires (à condition que le meta tags appropriés sont ajoutés). Vous pouvez voir les commentaires ici, mais pour les gérer, vous devez utiliser les outils de Facebook. %sGérer les commentaires Facebook%s"
 
-#: AWD_facebook_seo_comments.php:283
+#: inc/classes/class.AWD_facebook_seo_comments.php:259
 #@ AWD_facebook_seo_comments
 msgid "Comment was posted"
 msgstr "Le commentaire a été publié"
 
-#: AWD_facebook_seo_comments.php:285
+#: inc/classes/class.AWD_facebook_seo_comments.php:261
 #@ AWD_facebook_seo_comments
 msgid "Sorry there is an error, comment was not posted."
 msgstr "Désolé il y a une erreur, le commentaire n&#39;a pas été publié. "
 
-#: AWD_facebook_seo_comments.php:287
+#: inc/classes/class.AWD_facebook_seo_comments.php:263
 #@ AWD_facebook_seo_comments
 msgid "Sorry but you must enter a comment."
 msgstr "Désolé, mais vous devez saisir un commentaire."
 
-#: AWD_facebook_seo_comments.php:301
+#: inc/classes/class.AWD_facebook_seo_comments.php:276
 #@ AWD_facebook_seo_comments
 msgid "Search by posts"
 msgstr "Recherche par articles"
 
-#: AWD_facebook_seo_comments.php:325
+#: inc/classes/class.AWD_facebook_seo_comments.php:300
 #@ AWD_facebook_seo_comments
 msgid "Add a comment on Facebook"
 msgstr "Ajouter un commentaire sur Facebook"
 
-#: inc/classes/class.table_comments.php:152
+#: inc/classes/class.table_comments.php:99
 #@ AWD_facebook_seo_comments
 msgid "Comment"
 msgstr "Commentaire"
 
-#: AWD_facebook_seo_comments.php:332
+#: inc/classes/class.AWD_facebook_seo_comments.php:307
 #@ AWD_facebook_seo_comments
 msgid "You must be logged in with Facebook to comment"
 msgstr "Vous devez être connecté avec Facebook pour commenter"
 
-#: AWD_facebook_seo_comments.php:403
+#: inc/classes/class.AWD_facebook_seo_comments.php:79
 #@ AWD_facebook_seo_comments
 msgid "Merge Fb comments with WP comments ?"
 msgstr "Fusionner les commentaires Fb avec des commentaires WP?"
 
-#: AWD_facebook_seo_comments.php:406
-#: AWD_facebook_seo_comments.php:433
-#: AWD_facebook_seo_comments.php:442
+#: inc/classes/class.AWD_facebook_seo_comments.php:82
+#: inc/classes/class.AWD_facebook_seo_comments.php:113
+#: inc/classes/class.AWD_facebook_seo_comments.php:122
 #@ AWD_facebook_seo_comments
 msgid "No"
 msgstr "Non"
 
-#: AWD_facebook_seo_comments.php:407
-#: AWD_facebook_seo_comments.php:434
-#: AWD_facebook_seo_comments.php:443
+#: inc/classes/class.AWD_facebook_seo_comments.php:83
+#: inc/classes/class.AWD_facebook_seo_comments.php:114
+#: inc/classes/class.AWD_facebook_seo_comments.php:123
 #@ AWD_facebook_seo_comments
 msgid "Yes"
 msgstr "Oui"
 
-#: AWD_facebook_seo_comments.php:412
+#: inc/classes/class.AWD_facebook_seo_comments.php:88
 #@ AWD_facebook_seo_comments
 msgid "Cache option"
 msgstr "Option de cache"
 
-#: AWD_facebook_seo_comments.php:415
+#: inc/classes/class.AWD_facebook_seo_comments.php:91
 #@ AWD_facebook_seo_comments
 msgid "Disable"
 msgstr "Désactivé"
 
-#: AWD_facebook_seo_comments.php:416
+#: inc/classes/class.AWD_facebook_seo_comments.php:92
 #@ AWD_facebook_seo_comments
 msgid "Hourly"
 msgstr "Toutes les heures"
 
-#: AWD_facebook_seo_comments.php:417
+#: inc/classes/class.AWD_facebook_seo_comments.php:93
 #@ AWD_facebook_seo_comments
 msgid "Twice daily"
 msgstr "Deux fois par jour"
 
-#: AWD_facebook_seo_comments.php:418
+#: inc/classes/class.AWD_facebook_seo_comments.php:94
 #@ AWD_facebook_seo_comments
 msgid "Daily"
 msgstr "Tous les jours"
 
-#: AWD_facebook_seo_comments.php:430
+#: inc/classes/class.AWD_facebook_seo_comments.php:110
 #@ AWD_facebook_seo_comments
 msgid "Add FB comments to html with no diplsay ?"
 msgstr "Ajoutez des commentaires FB cachés en html ?"
 
-#: AWD_facebook_seo_comments.php:439
+#: inc/classes/class.AWD_facebook_seo_comments.php:119
 #@ AWD_facebook_seo_comments
 msgid "Merge Fb comments count with WP comments count ?"
 msgstr "Fusionner le nombre de commentaires FB avec ceux de WP ?"
 
-#: AWD_facebook_seo_comments.php:452
+#: inc/classes/class.AWD_facebook_seo_comments.php:132
 #@ AWD_facebook_seo_comments
 msgid "Save all settings"
 msgstr "Enregistrer tous les paramètres"
 
-#: AWD_facebook_seo_comments.php:478
-#@ AWD_facebook_seo_comments
-msgid "can not be activated: Facebook AWD All in One plugin must be installed... you can download it from the Wordpress plugin directory"
-msgstr "ne peux pas être activé: Facebook AWD All in One plugin doit être installé ... vous pouvez le télécharger à partir du répertoire des plugins Wordpress"
-
-#: AWD_facebook_seo_comments.php:485
-#@ AWD_facebook_seo_comments
-msgid "can not be activated: Facebook AWD All in One plugin is out to date... You can download the last version or update it from the Wordpress plugin directory"
-msgstr "ne peux pas être activé: Facebook AWD All in One plugin est à ce jour ... Vous pouvez télécharger la dernière version ou mise à jour à partir du répertoire des plugins Wordpress"
-
-#: inc/classes/class.table_comments.php:32
+#: inc/classes/class.table_comments.php:31
 #@ AWD_facebook_seo_comments
 msgid "No comments found."
 msgstr "Aucun commentaire trouvé."
 
-#: inc/classes/class.table_comments.php:215
+#: inc/classes/class.table_comments.php:131
 #@ AWD_facebook_seo_comments
 msgid "Comment was deleted"
 msgstr "Le commentaire a été supprimé"
 
-#: inc/classes/class.table_comments.php:285
+#: inc/classes/class.table_comments.php:192
 #@ AWD_facebook_seo_comments
 msgid "Submitted on"
 msgstr "Posté le"
 
-#: AWD_facebook_seo_comments.php:422
+#: inc/classes/class.AWD_facebook_seo_comments.php:98
 #@ AWD_facebook_seo_comments
 msgid "Next cache cleaning:"
 msgstr "Prochain nettoyage du cache:"
 
-#: inc/classes/class.table_comments.php:110
-#: inc/classes/class.table_comments.php:197
+#: inc/classes/class.table_comments.php:78
+#: inc/classes/class.table_comments.php:118
 #@ AWD_facebook_seo_comments
 msgid "Delete"
 msgstr "Supprimer"
 
-#: inc/classes/class.table_comments.php:151
+#: inc/classes/class.table_comments.php:98
 #@ AWD_facebook_seo_comments
 msgid "Author"
 msgstr "Auteur"
 
-#: inc/classes/class.table_comments.php:154
+#: inc/classes/class.table_comments.php:101
 #@ AWD_facebook_seo_comments
 msgid "In response to"
 msgstr "En réponse à"
 
-#: AWD_facebook_seo_comments.php:321
+#: inc/classes/class.AWD_facebook_seo_comments.php:296
 #@ AWD_facebook_seo_comments
 msgid "Search URL"
 msgstr "Recherche"
 
-#: AWD_facebook_seo_comments.php:126
-#@ AWD_facebook_seo_comments
-msgid "| With:"
-msgstr "| Avec:"
-
-#: AWD_facebook_seo_comments.php:329
+#: inc/classes/class.AWD_facebook_seo_comments.php:304
 #@ AWD_facebook_seo_comments
 msgid "Submit Comment"
 msgstr "Commenter"
@@ -220,4 +204,14 @@ msgstr "Ceci va permettre de fusionner le nombre de commentaires Facebook avec l
 #@ AWD_facebook_seo_comments
 msgid "Scheduled task to clean the Facebook comments cache"
 msgstr "Planification de la tâche de nettoyage du cache des commentaires Facebook"
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:104
+#@ AWD_facebook_seo_comments
+msgid "Disabled"
+msgstr "Désactivé"
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:133
+#@ AWD_facebook_seo_comments
+msgid "Make a donation!"
+msgstr "Faites un DON !"
 
