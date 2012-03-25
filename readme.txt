@@ -17,4 +17,4 @@ This plugin merge Facebook Comments with native Wordpress Comments System. Need 
 This plugin allow you to take Facebook comments out of the box.
 Merge Facebook comments with native WP comments (no persist), or Add them in html tags hidden for users but readable by search engine.
 
-Facebook AWD v1.0 required.
+Facebook AWD v1.2 required.
