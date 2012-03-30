@@ -76,7 +76,11 @@ class AWD_facebook_comments_base
 	{
 		if($this->comments_url == '') 
 			return false;
+<<<<<<< HEAD
 		$fql = "SELECT comments_fbid,commentsbox_count,comment_count FROM link_stat WHERE url='".$this->comments_url."'";
+=======
+		$fql = "SELECT comments_fbid,commentsbox_count,comment_count FROM link_stat WHERE url='http://www.ahwebdev.fr/plugins/facebook-awd.html'";
+>>>>>>> a87b987ffa9130be120115eb86f49fe7b43aad0b
 		try {
 			$fql_url_object = $this->AWD_facebook->fcbk->api(array('method'=>'fql.query','query'=>$fql));
 			$this->comments_count = 0;
