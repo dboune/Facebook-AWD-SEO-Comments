@@ -171,20 +171,20 @@ class AWD_facebook_comments_base
 	/**
 	* Post a comment
 	*/
-	public function post_comment($comment_to_post)
+	public function post_comment($comment_to_post,$url)
 	{
-    	if($comment_to_post){
-			if($comment_to_post != ''){
-				try {
-					$comment_posted = $this->AWD_facebook->fcbk->api('/'.$this->comments_id.'/comments','post',array('message'=>$comment_to_post));
-					if($comment_posted['id'])
-						return $comment_posted['id'];		
-				}catch (FacebookApiException $e) {
-					return false;
-				}		
-			}
+		$this->comments_url = $url;
+		$this->get_comments_id_by_url();
+		if(!$this->comments_id){
+			return 	__('This url is not an object in the graph',$this->plugin_text_domain);
 		}
-		return false;
+		try {
+			$comment_posted = $this->AWD_facebook->fcbk->api('/'.$this->comments_id.'/comments','post',array('message'=>$comment_to_post));
+			if($comment_posted['id'])
+				return $comment_posted['id'];		
+		}catch (FacebookApiException $e) {
+			return $e->getMessage();
+		}		
 	}
 
 	public function get_comments_from_cache()
