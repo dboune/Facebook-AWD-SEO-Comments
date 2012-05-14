@@ -15,7 +15,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
     public $plugin_slug = 'awd_fcbk_seo_comments';
     public $plugin_name = 'Facebook AWD Seo Comments';
     public $plugin_text_domain = 'AWD_facebook_seo_comments';
-    public $version_requiered = '1.0';                    
+    public $version_requiered = '1.3';                    
 	
 	//****************************************************************************************
 	//	INIT
