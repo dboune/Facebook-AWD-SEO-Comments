@@ -132,19 +132,18 @@ class AWD_facebook_comments_base
 	{
 		//If we have some infos store them
 		if($this->comments_id > 0){
-			update_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_infos', 
+			set_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_infos_'.$this->wp_post_id,
 				array(
 					'comments_id' => $this->comments_id,
 					'comments_count' => $this->comments_count
-				)
-			);
+				) ,
+			60);
 		}
 		//If we got comments store them
 		if($this->comments_array > 0){
-			update_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array', $this->comments_array);
+			set_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array'.$this->wp_post_id, $this->comments_array,60);
 		}
-		
-		update_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_status', 1);
+		set_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_status'.$this->wp_post_id, 1,60);
 	}
 	/*
 	* clear data
@@ -152,9 +151,9 @@ class AWD_facebook_comments_base
 	public function clear_cache()
 	{
 		$this->comments_array = array();
-		delete_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_status');
-		delete_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array');
-		delete_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_infos');
+		delete_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_infos_'.$this->wp_post_id);
+		delete_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array'.$this->wp_post_id);
+		delete_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_status'.$this->wp_post_id);
 	}
 	/**
 	* Delete a comment
@@ -189,12 +188,12 @@ class AWD_facebook_comments_base
 
 	public function get_comments_from_cache()
 	{
-		$this->comments_infos = get_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_infos', true);					
+		$this->comments_infos = get_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_infos_'.$this->wp_post_id);				
 		$this->comments_count = $this->comments_infos['comments_count'] > 0 ? $this->comments_infos['comments_count'] : 0;
 		$this->comments_id = $this->comments_infos['comments_id'] > 0 ? $this->comments_infos['comments_id'] : 0;				
-		$this->comments_array = get_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array', true);					
+		$this->comments_array = get_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array'.$this->wp_post_id);
 		$this->comments_array = count($this->comments_array) > 0 ? $this->comments_array : array();
-		$this->comments_status = get_post_meta($this->wp_post_id, '_'.$this->AWD_facebook->plugin_option_pref.'cache_fb_comments_status', true);					
+		$this->comments_status = get_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_status'.$this->wp_post_id);					
 		$this->comments_status =  $this->comments_status > 0 ? $this->comments_status : 0;
 	}
 	
@@ -210,6 +209,7 @@ class AWD_facebook_comments_base
 				//know if we want cache comments or not
 				if($this->AWD_facebook->options['comments_cache'] != "0" && $_REQUEST['action'] != 'clear_fb_cache'){
 					$this->get_comments_from_cache();	
+					
 					if($this->comments_status != 1){
 						$reponse = $this->get_comments_by_url();
 						$this->update_cache();
