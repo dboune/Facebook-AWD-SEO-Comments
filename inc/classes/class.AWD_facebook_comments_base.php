@@ -1,13 +1,9 @@
 <?php
-/*
-*
-* Facebook comments class | AWD FCBK SEO comments
-* (C) 2012 AH WEB DEV
-* Hermann.alexandre@ahwebdev.fr
-*
-*/
-
-
+/**
+ * 
+ * @author alexhermann
+ *
+ */
 class AWD_facebook_comments_base
 {
 	/**
@@ -160,12 +156,12 @@ class AWD_facebook_comments_base
 	*/
 	public function delete_comment($comment_id)
 	{
-			try {
-				if($this->AWD_facebook->fcbk->api('/'.$comment_id,'delete'))
-					return true;
-			}catch (FacebookApiException $e) {
-				return $e->getMessage();
-			}
+		try {
+			if($this->AWD_facebook->fcbk->api('/'.$comment_id,'delete'))
+				return true;
+		}catch (FacebookApiException $e) {
+			return $e->getMessage();
+		}
 	}
 	/**
 	* Post a comment
@@ -204,28 +200,31 @@ class AWD_facebook_comments_base
 	* make a call to get new comments and save them.
 	*/
 	public function wp_get_comments(){
+		$response = false;
+		$action = '';
+		if(isset($_REQUEST['action']))
+			$action = $_REQUEST['action'];
 		if($this->comments_url != ''){
 			if($this->wp_post_id != ''){	
 				//know if we want cache comments or not
-				if($this->AWD_facebook->options['comments_cache'] != "0" && $_REQUEST['action'] != 'clear_fb_cache'){
+				if($this->AWD_facebook->options['seo_comments']['cache'] != "0" && $action != 'clear_fb_cache'){
 					$this->get_comments_from_cache();	
-					
 					if($this->comments_status != 1){
-						$reponse = $this->get_comments_by_url();
+						$response = $this->get_comments_by_url();
 						$this->update_cache();
 					}
 				}else{
-					$reponse = $this->get_comments_by_url();
+					$response = $this->get_comments_by_url();
 				}
 			}else{
-				$reponse = $this->get_comments_by_url();
+				$response = $this->get_comments_by_url();
 			}
-			if($reponse !== true)
+			if($response !== true)
 				return $response;
-				
+			
 			return $this->comments_array;
         }
-        return false;
+        return $response;
 	}
 	/**
 	 * Return the data fb comment formated for WP comment_array

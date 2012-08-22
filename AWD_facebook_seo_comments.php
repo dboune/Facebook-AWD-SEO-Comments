@@ -11,6 +11,11 @@ Text Domain: AWD_facebook_seo_comments
 Last modification: 18/03/2012
 */
 
+/**
+ *
+ * @author alexhermann
+ *
+ */
 add_action('plugins_loaded', 'initial_seo_comments');
 function initial_seo_comments()
 {
@@ -19,7 +24,6 @@ function initial_seo_comments()
 		$model_path = $AWD_facebook->get_plugins_model_path();
 		require_once($model_path);
 		require_once(dirname(__FILE__).'/inc/classes/class.AWD_facebook_seo_comments.php');
-		//instance
 		$AWD_facebook_seo_comments = new AWD_facebook_seo_comments(__FILE__,$AWD_facebook);
 	}
 }
