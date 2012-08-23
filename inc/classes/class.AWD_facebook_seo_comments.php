@@ -68,16 +68,19 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		parent::init();
 		add_action('AWD_facebook_seo_comments_clear_cache', array(&$this, 'clear_comments_cache'));
 		add_shortcode('AWD_facebook_comments_hidden', array(&$this, 'get_hidden_fbcomments'));
-		if ($this->AWD_facebook->options['seo_comments']['merge'] == 1) {
-			add_filter('comments_array', array(&$this, 'set_comments_content'), 10, 2);
-		}
-
-		if ($this->AWD_facebook->options['seo_comments']['display'] == 1) {
-			add_action('comments_template', array(&$this, 'print_hidden_fbcomments'));
-		}
-
-		if ($this->AWD_facebook->options['seo_comments']['count_merge'] == 1) {
-			add_filter('get_comments_number', array(&$this, 'set_comments_number'), 10, 2);
+		//wait for user to  save the form.
+		if(isset($this->AWD_facebook->options['seo_comments'])){
+			if ($this->AWD_facebook->options['seo_comments']['merge'] == 1) {
+				add_filter('comments_array', array(&$this, 'set_comments_content'), 10, 2);
+			}
+	
+			if ($this->AWD_facebook->options['seo_comments']['display'] == 1) {
+				add_action('comments_template', array(&$this, 'print_hidden_fbcomments'));
+			}
+	
+			if ($this->AWD_facebook->options['seo_comments']['count_merge'] == 1) {
+				add_filter('get_comments_number', array(&$this, 'set_comments_number'), 10, 2);
+			}
 		}
 	}
 
@@ -88,7 +91,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 	public function default_options($options)
 	{
 		$options = parent::default_options($options);
-		
+		$default_options = array();
 		$default_options['merge'] = 0;
 		$default_options['display'] = 0;
 		$default_options['count_merge'] = 'btn';
@@ -98,9 +101,6 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		if (!isset($options['seo_comments']))
 			$options['seo_comments'] = array();
 		$options['seo_comments'] = wp_parse_args($options['seo_comments'], $default_options);
-		
-		//reset the AWD_facebook_options
-		//$this->AWD_facebook->options = $options;
 		
 		return $options;
 	}
