@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: Facebook comments, seo comments, facebook awd, facebook
 Requires at least: 3.3
 Tested up to: 3.4.2
-Stable tag: 1.5
+Stable tag: 1.5.1
 
 This plugin merge Facebook Comments with native Wordpress Comments System.
 
