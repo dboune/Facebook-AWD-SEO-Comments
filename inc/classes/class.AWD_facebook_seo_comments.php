@@ -111,7 +111,8 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 	public function admin_menu()
 	{		
 		$this->plugin_admin_hook = add_submenu_page($this->AWD_facebook->plugin_slug, __('SEO Comments', $this->ptd), '<img src="' . $this->plugin_url_images . 'facebook_seocom-mini.png" /> ' . __('SEO Comments', $this->ptd), 'administrator', $this->AWD_facebook->plugin_slug . '_seo_comments', array($this->AWD_facebook, 'admin_content'));
-		add_meta_box($this->AWD_facebook->plugin_slug . "_seo_comments_settings", __('Settings', $this->ptd) . ' <img src="' . $this->plugin_url_images . 'facebook_seocom-mini.png" />', array(&$this, 'admin_form'), $this->plugin_admin_hook, 'normal', 'core');
+		if($this->plugin_admin_hook != '')
+			add_meta_box($this->AWD_facebook->plugin_slug . "_seo_comments_settings", __('Settings', $this->ptd) . ' <img src="' . $this->plugin_url_images . 'facebook_seocom-mini.png" />', array(&$this, 'admin_form'), $this->plugin_admin_hook, 'normal', 'core');
 		parent::admin_menu();
 	}
 
