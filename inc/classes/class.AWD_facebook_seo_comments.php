@@ -55,11 +55,6 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		$this->AWD_facebook_comments = new AWD_facebook_comments_base($this->AWD_facebook);
 	}
 
-	public function deactivation()
-	{
-	    wp_clear_scheduled_hook('AWD_facebook_seo_comments_clear_cache');
-	}
-
 	/**
 	 * Initialisation of the Facebook AWD plugin
 	 */
@@ -153,22 +148,16 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 	public function hook_post_from_custom_options()
 	{
 		//clear cache if we deactivate it.
-		if ($_POST[$this->AWD_facebook->plugin_option_pref . 'comments_cache'] == "0") {
-			do_action('AWD_facebook_seo_comments_clear_cache');
+		if (isset($_POST[$this->AWD_facebook->plugin_option_pref . 'seo_comments']['cache'])) {
+			if ($_POST[$this->AWD_facebook->plugin_option_pref . 'seo_comments']['cache'] == "0") {
+				$this->AWD_facebook_comments->clear_cache();
+			}
 		}
 	}
 
 	//****************************************************************************************
 	//	Self methods
 	//****************************************************************************************
-	
-	/**
-	 * Clear the cache of comments on every posts.
-	 */
-	 public function clear_comments_cache()
-	{
-		$this->AWD_facebook->wpdb->query("DELETE FROM " . $this->AWD_facebook->wpdb->postmeta . " WHERE post_id !='' AND (meta_key = '_" . $this->AWD_facebook->plugin_option_pref . "cache_fb_comments_array' OR meta_key = '_" . $this->AWD_facebook->plugin_option_pref . "cache_fb_comments_infos' OR meta_key = '_" . $this->AWD_facebook->plugin_option_pref . "cache_fb_comments_status') ");
-	}
 	
 	/**
 	 * Echo list of comments

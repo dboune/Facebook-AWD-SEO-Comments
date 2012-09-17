@@ -41,6 +41,11 @@ class AWD_facebook_comments_base
 	* Wordpress related Post id
 	*/
 	public $wp_post_id;
+	
+	/**
+	 * expiration of cache transient in ms default 1s
+	 */
+	public $cache_expiration = 60;
 	/**
 	* The comments set array formated for wordpress template model.
 	* array
@@ -57,19 +62,13 @@ class AWD_facebook_comments_base
 		$this->comments_url = home_url();
 		$this->AWD_facebook = $AWD_facebook;
 	}
-	/**
-	* FB API
-	*/
-	public function set_AWD_facebook()
-	{
-		global $AWD_facebook;
-		$this->AWD_facebook = $AWD_facebook;
-	}
+	
 	/**
 	* Get comments Id by url
 	*/
 	public function get_comments_id_by_url()
 	{
+		
 		if($this->comments_url == '') 
 			return false;
 			
@@ -126,20 +125,25 @@ class AWD_facebook_comments_base
 	*/
 	public function update_cache()
 	{
-		//If we have some infos store them
-		if($this->comments_id > 0){
-			set_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_infos_'.$this->wp_post_id,
-				array(
-					'comments_id' => $this->comments_id,
-					'comments_count' => $this->comments_count
-				) ,
-			60);
+		//set the cache expiration
+		$this->cache_expiration = $this->AWD_facebook->options['seo_comments']['cache'];
+		
+		if($this->cache_expiration > 0){
+			//If we have some infos store them
+			if($this->comments_id > 0){
+				set_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_infos_'.$this->wp_post_id,
+					array(
+						'comments_id' => $this->comments_id,
+						'comments_count' => $this->comments_count
+					) ,
+			$this->cache_expiration);
+			}
+			//If we got comments store them
+			if($this->comments_array > 0){
+				set_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array'.$this->wp_post_id, $this->comments_array,$this->cache_expiration);
+			}
+			set_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_status'.$this->wp_post_id, 1,$this->cache_expiration);
 		}
-		//If we got comments store them
-		if($this->comments_array > 0){
-			set_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_array'.$this->wp_post_id, $this->comments_array,60);
-		}
-		set_transient($this->AWD_facebook->plugin_option_pref.'cache_fb_comments_status'.$this->wp_post_id, 1,60);
 	}
 	/*
 	* clear data
