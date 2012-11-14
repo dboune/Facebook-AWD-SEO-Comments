@@ -1,0 +1,184 @@
+# Copyright (C) 2012 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version:  \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/facebook-awd-seo-comments\n"
+"POT-Creation-Date: 2012-03-21 00:32:15+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:64
+msgid "SEO Comments"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:65
+msgid "Settings"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:66
+msgid "Manage comments"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:79
+msgid "Merge Fb comments with WP comments ?"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:82
+#: inc/classes/class.AWD_facebook_seo_comments.php:113
+#: inc/classes/class.AWD_facebook_seo_comments.php:122
+msgid "No"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:83
+#: inc/classes/class.AWD_facebook_seo_comments.php:114
+#: inc/classes/class.AWD_facebook_seo_comments.php:123
+msgid "Yes"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:88
+msgid "Cache option"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:91
+msgid "Disable"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:92
+msgid "Hourly"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:93
+msgid "Twice daily"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:94
+msgid "Daily"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:98
+msgid "Next cache cleaning:"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:104
+msgid "Disabled"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:110
+msgid "Add FB comments to html with no diplsay ?"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:119
+msgid "Merge Fb comments count with WP comments count ?"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:132
+msgid "Save all settings"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:133
+msgid "Make a donation!"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:250
+msgid ""
+"It is currently not possible to remove comments from the comments box via "
+"the Graph API. You can moderate comments to hide/boost a comment or ban a "
+"user from the Developer App (http://developers.facebook.com/apps) or "
+"directly from the comments box (provided the appropriate open graph meta "
+"tags are added). You can see Comments here, but to manage them you must use "
+"tools from facebook. %sManage FB comments%s"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:259
+msgid "Comment was posted"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:261
+msgid "Sorry there is an error, comment was not posted."
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:263
+msgid "Sorry but you must enter a comment."
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:276
+msgid "Search by posts"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:296
+msgid "Search URL"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:300
+msgid "Add a comment on Facebook"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:304
+msgid "Submit Comment"
+msgstr ""
+
+#: inc/classes/class.AWD_facebook_seo_comments.php:307
+msgid "You must be logged in with Facebook to comment"
+msgstr ""
+
+#: inc/classes/class.table_comments.php:31
+msgid "No comments found."
+msgstr ""
+
+#: inc/classes/class.table_comments.php:78
+#: inc/classes/class.table_comments.php:118
+msgid "Delete"
+msgstr ""
+
+#: inc/classes/class.table_comments.php:98
+msgid "Author"
+msgstr ""
+
+#: inc/classes/class.table_comments.php:99
+msgid "Comment"
+msgstr ""
+
+#: inc/classes/class.table_comments.php:101
+msgid "In response to"
+msgstr ""
+
+#: inc/classes/class.table_comments.php:131
+msgid "Comment was deleted"
+msgstr ""
+
+#: inc/classes/class.table_comments.php:192
+msgid "Submitted on"
+msgstr ""
+
+#: inc/help/help_settings.php:15
+msgid "Help"
+msgstr ""
+
+#: inc/help/help_settings.php:20
+msgid ""
+"This will merge All Facebook comments with your native Wordpress comments, "
+"If cache is enabled, Fb comments will be saved in post meta to prevent longs "
+"requests"
+msgstr ""
+
+#: inc/help/help_settings.php:25
+msgid "Scheduled task to clean the Facebook comments cache"
+msgstr ""
+
+#: inc/help/help_settings.php:30
+msgid ""
+"This will add All Facebook comments in html format in posts and hide them "
+"with javascript when page is loaded. It's a good way to boost SEO without "
+"add comments in Wordpress comments loop"
+msgstr ""
+
+#: inc/help/help_settings.php:35
+msgid ""
+"This will merge Facebook comments count with your native wordpress comments "
+"count on each post"
+msgstr ""
