@@ -244,7 +244,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 				$this->AWD_facebook_comments->get_comments_id_by_url();
 			}	
 			if($this->AWD_facebook_comments->get_comments_count() > 0)
-				$count +=  $this->AWD_facebook_comments->get_comments_count();
+				$count =  $count + $this->AWD_facebook_comments->get_comments_count();
 		}
 		return $count;
 	}
