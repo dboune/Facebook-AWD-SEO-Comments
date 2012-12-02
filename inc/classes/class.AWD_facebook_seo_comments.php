@@ -49,6 +49,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		add_action('AWD_facebook_save_custom_settings',array(&$this,'hook_post_from_custom_options'));
 		add_action('AWD_facebook_seo_comments_clear_cache',array(&$this,'clear_comments_cache'));
 		add_action('wp_ajax_table_comments_list',array(&$this,'ajax_table_comments_list'));
+		add_action('wp_ajax_post_comment',array(&$this,'ajax_post_comment'));
 	
 		if($this->AWD_facebook->options['comments_merge'] == 1)
 			add_filter('comments_array', array(&$this,'set_comments_content'),10,2);
@@ -65,9 +66,14 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		$this->plugin_admin_hook = add_submenu_page($this->AWD_facebook->plugin_slug, __('SEO Comments',$this->plugin_text_domain), '<img src="'.$this->plugin_url_images.'facebook_seocom-mini.png" /> '.__('SEO Comments',$this->plugin_text_domain), 'administrator', $this->AWD_facebook->plugin_slug.'_seo_comments', array($this->AWD_facebook,'admin_content'));
 		add_meta_box($this->AWD_facebook->plugin_slug."_seo_comments_settings", __('Settings',$this->plugin_text_domain).' <img src="'.$this->plugin_url_images.'facebook_seocom-mini.png" />', array(&$this,'admin_form'), $this->plugin_admin_hook , 'normal', 'core');
 		add_meta_box($this->AWD_facebook->plugin_slug."_seo_comments_list", __('Manage comments',$this->plugin_text_domain).' <img src="'.$this->plugin_url_images.'facebook_seocom-mini.png" />', array(&$this,'seo_comments_list'), $this->plugin_admin_hook , 'normal', 'core');
-
+		wp_register_style($this->plugin_slug, $this->plugin_url.'/assets/css/facebook_awd_seo_comments.css');
 		parent::admin_menu();
 	}
+	
+	public function admin_enqueue_css(){
+		wp_enqueue_style($this->plugin_slug);
+	}
+	
 	public function admin_form()
 	{
 		?>
@@ -241,7 +247,31 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 				$count +=  $this->AWD_facebook_comments->get_comments_count();
 		}
 		return $count;
-	}	
+	}
+	
+	public function ajax_post_comment(){
+		//post a comment on the specified url
+    	$comment_to_post = $_POST[$this->plugin_slug.'comments_area'];
+    	$url_to_post = $_POST['s'];
+		if($_POST){
+			if($comment_to_post){
+				if($url_to_post != ''){
+					$return = $this->AWD_facebook_comments->post_comment($comment_to_post, $url_to_post);
+					if($return['id'] != 0)
+						echo '<div class="ui-state-highlight fadeOnload"><p>'.sprintf(__('Comment was posted ID: %d',$this->plugin_text_domain),$return['id']).'</p></div>';
+					else
+						echo '<div class="ui-state-error fadeOnload"><p>'.sprintf(__('Sorry there is an error, comment was not posted. Error: %s',$this->plugin_text_domain), $return).'</p></div>';
+				}else{
+					echo '<div class="ui-state-error fadeOnload"><p>'.sprintf(__('Sorry there is an error, you must set an url to comment on',$this->plugin_text_domain), $return).'</p></div>';
+				}
+			}else{
+				echo '<div class="ui-state-error"><p>'.__('Sorry, you must enter a comment.',$this->plugin_text_domain).'</p></div>';
+			}
+		}
+		exit();
+	}
+	
+	
 	public function seo_comments_list()
 	{
     	$this->AWD_facebook_comments->set_AWD_facebook();
@@ -249,22 +279,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		$this->AWD_facebook_comments->get_comments_id_by_url();
     	?>
     	<div class="ui-state-highlight"><?php printf(__('It is currently not possible to remove comments from the comments box via the Graph API. You can moderate comments to hide/boost a comment or ban a user from the Developer App (http://developers.facebook.com/apps) or directly from the comments box (provided the appropriate open graph meta tags are added). You can see Comments here, but to manage them you must use tools from facebook. %sManage FB comments%s',$this->plugin_text_domain),'<br /><p class="right"><a href="https://developers.facebook.com/tools/comments?id='.$this->AWD_facebook->options['app_id'].'" class="uiButton uiButtonNormal" target="_blank">','</a></p>'); ?></div><br />
-		
 		<?php
-    	//post a comment on the specified url
-    	$comment_to_post = $_POST[$this->plugin_slug.'comments_area'];
-		if($comment_to_post){
-			if($comment_to_post != ''){	
-				$comment_posted = $this->AWD_facebook_comments->post_comment($comment_to_post);
-				if($comment_posted['id'])
-					echo '<div class="ui-state-highlight fadeOnload"><p>'.__('Comment was posted',$this->plugin_text_domain).'</p></div>';
-				else
-					echo '<div class="ui-state-error"><p>'.__('Sorry there is an error, comment was not posted.',$this->plugin_text_domain).'</p></div>';
-			}else{
-				echo '<div class="ui-state-error"><p>'.__('Sorry but you must enter a comment.',$this->plugin_text_domain).'</p></div>';
-			}
-		}
-		
     	$AWD_facebook_table_comments = new AWD_facebook_table_comments($this);
     	$AWD_facebook_table_comments->prepare_items(); 
     	?>
@@ -300,48 +315,43 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		<br />
 		<h3><?php _e('Add a comment on Facebook',$this->plugin_text_domain); ?></h3>
 		<?php if($this->AWD_facebook->is_user_logged_in_facebook()): ?>
+			<div class="comment_message"></div>
 			<form id="<?php echo $this->plugin_slug; ?>comments-post" action="admin.php?page=<?php echo $this->plugin_slug; ?>&s=<?php echo urlencode($_REQUEST['s']); ?>" method="post">
 				<textarea style="display:block; width:100%; margin-bottom: 5px" id="<?php echo $this->plugin_slug; ?>comments_area" name="<?php echo $this->plugin_slug; ?>comments_area" class="uiTextarea"></textarea>
 				<a href="#" class="uiButton uiButtonSubmit" id="comment_submit"><?php _e('Submit Comment',$this->plugin_text_domain); ?></a>
+				<img src="/wp-content/plugins/facebook-awd/assets/css/images/loading.gif" alt="loading..." class="add_comment_loading"/>
 			</form>
 		<?php else: ?>
 			<p class="ui-state-highlight"><?php _e('You must be logged in with Facebook to comment',$this->plugin_text_domain); ?></p>
 		<?php endif; 
 		$style_js = '
-        <style type="text/css">
-        	th#like.manage-column {
-        		width:8%;
-        	}
-        	th#comment.manage-column {
-        		width:60%;
-        	}
-        	td.like {
-        		font-weight:bold;
-        		color:#627AAD;
-        	}
-        </style>
         <script type="text/javascript">
 			jQuery(document).ready(function($){
 				$("#search_submit").click(function(e){
+					$(".search_comment_loading").fadeIn();
 					e.preventDefault();
-					//$("#'.$this->plugin_slug.'comments-filter").submit();
-					//$(".'.$this->plugin_slug.'comments-filter-table").slideUp().html("");
 					$.post(ajaxurl+"?action=table_comments_list",$("#'.$this->plugin_slug.'comments-filter").serialize().replace("action","action_modified_for_ajax")+"&"+$.param(list_args), function(data){
 						$(".'.$this->plugin_slug.'comments-filter-table").html(data.table).slideDown();
-						console.log(data);
+						$(".search_comment_loading").fadeOut();
 					},"json");
 				});
-				jQuery(".next-page, .prev-page, th.sortable a").live("click",function(e){
+				$(".next-page, .prev-page, th.sortable a").live("click",function(e){
+					$(".search_comment_loading").fadeIn();
 					e.preventDefault();
 					$this = $(this);
 					$("#'.$this->plugin_slug.'comments-filter input[name=\'paged\']").remove();
 					$.post($this.attr("href"),$("#'.$this->plugin_slug.'comments-filter").serialize().replace("action","action_modified_for_ajax")+"&"+$.param(list_args), function(data){
 						$(".'.$this->plugin_slug.'comments-filter-table").html(data.table).slideDown();
+						$(".search_comment_loading").fadeOut();
 					},"json");
 				})
-				jQuery("#comment_submit").click(function(e){
+				$("#comment_submit").click(function(e){
 					e.preventDefault();
-					$("#'.$this->plugin_slug.'comments-post").submit();
+					$(".add_comment_loading").fadeIn();
+					$.post(ajaxurl+"?action=post_comment",$("#'.$this->plugin_slug.'comments-post").serialize()+"&s="+$("#'.$this->plugin_slug.'_search-search-input").val(), function(data){
+						$(".comment_message").html(data);
+						$(".add_comment_loading").fadeOut();
+					});
 				});
 			});
         </script>

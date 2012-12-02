@@ -49,6 +49,7 @@ class AWD_facebook_table_comments extends WP_List_Table{
 		<p>
 			<input type="text" id="<?php echo $input_id ?>" name="s" value="<?php if($this->AWD_facebook_comments->comments_url ==''){ _admin_search_query(); }else{ echo $this->AWD_facebook_comments->comments_url;} ?>" size="100"/>
 			<a href="#" class="uiButton uiButtonSubmit" id="search_submit"><?php echo $text; ?></a>
+			<img src="/wp-content/plugins/facebook-awd/assets/css/images/loading.gif" alt="loading..." class="search_comment_loading"/>
 		</p>
 		<?php
 		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
