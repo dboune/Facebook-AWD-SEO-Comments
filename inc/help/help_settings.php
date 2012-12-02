@@ -6,8 +6,15 @@
 * Hermann.alexandre@ahwebdev.fr
 *
 */
+/**
+* Help app id
+*/
 ?>
-<div class="header_lightbox_help_title hidden"><img style="vertical-align:middle;" src="<?php echo $this->AWD_facebook->plugin_url_images; ?>facebook-mini.png" alt="facebook logo"/> <?php _e('Help',$this->plugin_text_domain); ?></div>
+<div id="header_AWD_lightbox" class="hidden">
+	<div class="header_lightbox_help">
+		<div class="header_lightbox_help_text"><img style="vertical-align:middle;" src="<?php echo $this->AWD_facebook->plugin_url_images; ?>facebook-mini.png" alt="facebook logo"/> <?php _e('Help',$this->AWD_facebook->plugin_text_domain); ?></div>
+	</div>
+</div>
 <div id="lightbox_help_comments_merge" class="hidden">
 	<p>
 	<?php _e("This will merge All Facebook comments with your native Wordpress comments, If cache is enabled, Fb comments will be saved in post meta to prevent longs requests",$this->plugin_text_domain); ?>
