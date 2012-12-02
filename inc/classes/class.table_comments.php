@@ -22,10 +22,13 @@ class AWD_facebook_table_comments extends WP_List_Table{
         parent::__construct( array(
             'singular'  => 'comment',     
             'plural'    => 'comments',  
-            'ajax'      => false
+            'ajax'      => true
         ));
     }
-    
+    function ajax_user_can()
+    {
+    	return true;
+    }
     function no_items()
     {
 		_e('No comments found.', $this->AWD_facebook_seo_comments->plugin_text_domain);
@@ -48,6 +51,7 @@ class AWD_facebook_table_comments extends WP_List_Table{
 			<a href="#" class="uiButton uiButtonSubmit" id="search_submit"><?php echo $text; ?></a>
 		</p>
 		<?php
+		wp_nonce_field( "fetch-list-" . get_class( $this ), '_ajax_fetch_list_nonce' );
 	}
     function column_default($item, $column_name)
     {
@@ -208,5 +212,29 @@ class AWD_facebook_table_comments extends WP_List_Table{
 			//set attr
 			return $good_comment_format;
 	}
+	
+	
+	function ajax_response() {
+		$this->prepare_items();
+		extract( $this->_args );
+		extract( $this->_pagination_args );
+
+		ob_start();
+		$this->display();
+		$table = ob_get_clean();
+		$response = array( 'table' => $table);
+		
+		if ( isset( $total_items ) )
+			$response['total_items_i18n'] = sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) );
+
+		if ( isset( $total_pages ) ) {
+			$response['total_pages'] = $total_pages;
+			$response['total_pages_i18n'] = number_format_i18n( $total_pages );
+		}
+
+		die( json_encode( $response ) );
+	}
+
+	
 }
 ?>

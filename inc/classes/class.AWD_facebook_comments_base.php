@@ -76,6 +76,8 @@ class AWD_facebook_comments_base
 	{
 		if($this->comments_url == '') 
 			return false;
+			
+
 		$fql = "SELECT comments_fbid,commentsbox_count,comment_count FROM link_stat WHERE url='".$this->comments_url."'";
 		try {
 			$fql_url_object = $this->AWD_facebook->fcbk->api(array('method'=>'fql.query','query'=>$fql));

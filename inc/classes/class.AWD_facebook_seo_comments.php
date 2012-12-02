@@ -48,6 +48,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 		add_filter('get_comments_number', array(&$this,'set_comments_number'),10,2); 
 		add_action('AWD_facebook_save_custom_settings',array(&$this,'hook_post_from_custom_options'));
 		add_action('AWD_facebook_seo_comments_clear_cache',array(&$this,'clear_comments_cache'));
+		add_action('wp_ajax_table_comments_list',array(&$this,'ajax_table_comments_list'));
 	
 		if($this->AWD_facebook->options['comments_merge'] == 1)
 			add_filter('comments_array', array(&$this,'set_comments_content'),10,2);
@@ -294,7 +295,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
             <br />
             <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
             <?php $AWD_facebook_table_comments->search_box(__('Search URL',$this->plugin_text_domain), $this->plugin_slug.'_search' ); ?> 
-            <?php $AWD_facebook_table_comments->display(); ?>
+            <div class="<?php echo $this->plugin_slug; ?>comments-filter-table"><?php $AWD_facebook_table_comments->display(); ?></div>
         </form>
 		<br />
 		<h3><?php _e('Add a comment on Facebook',$this->plugin_text_domain); ?></h3>
@@ -323,17 +324,36 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 			jQuery(document).ready(function($){
 				$("#search_submit").click(function(e){
 					e.preventDefault();
-					$("#'.$this->plugin_slug.'comments-filter").submit();
-					$("body").css("cursor", "progress");
+					//$("#'.$this->plugin_slug.'comments-filter").submit();
+					//$(".'.$this->plugin_slug.'comments-filter-table").slideUp().html("");
+					$.post(ajaxurl+"?action=table_comments_list",$("#'.$this->plugin_slug.'comments-filter").serialize().replace("action","action_modified_for_ajax")+"&"+$.param(list_args), function(data){
+						$(".'.$this->plugin_slug.'comments-filter-table").html(data.table).slideDown();
+						console.log(data);
+					},"json");
 				});
+				jQuery(".next-page, .prev-page, th.sortable a").live("click",function(e){
+					e.preventDefault();
+					$this = $(this);
+					$("#'.$this->plugin_slug.'comments-filter input[name=\'paged\']").remove();
+					$.post($this.attr("href"),$("#'.$this->plugin_slug.'comments-filter").serialize().replace("action","action_modified_for_ajax")+"&"+$.param(list_args), function(data){
+						$(".'.$this->plugin_slug.'comments-filter-table").html(data.table).slideDown();
+					},"json");
+				})
 				jQuery("#comment_submit").click(function(e){
 					e.preventDefault();
 					$("#'.$this->plugin_slug.'comments-post").submit();
-					$("body").css("cursor", "progress");
 				});
 			});
         </script>
         ';
         echo $style_js;
     }
+    
+    public function ajax_table_comments_list(){
+		$wp_list_table = new AWD_facebook_table_comments($this);
+		$this->AWD_facebook_comments->comments_url = $_REQUEST['s'];
+		$this->AWD_facebook_comments->get_comments_id_by_url();
+		$wp_list_table->ajax_response();
+		die('0');
+	}
 }
