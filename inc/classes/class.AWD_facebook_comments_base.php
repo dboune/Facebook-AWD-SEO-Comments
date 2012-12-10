@@ -182,10 +182,14 @@ class AWD_facebook_comments_base
 	public function get_comments_from_cache()
 	{
 		$this->comments_infos = get_transient($this->AWD_facebook->plugin_option_pref . 'cache_fb_comments_infos_' . $this->wp_post_id);
+		
 		$this->comments_count = $this->comments_infos['comments_count'] > 0 ? $this->comments_infos['comments_count'] : 0;
+		
 		$this->comments_id = $this->comments_infos['comments_id'] > 0 ? $this->comments_infos['comments_id'] : 0;
+		
 		$this->comments_array = get_transient($this->AWD_facebook->plugin_option_pref . 'cache_fb_comments_array' . $this->wp_post_id);
-		$this->comments_array = count($this->comments_array) > 0 ? $this->comments_array : array();
+		$this->comments_array = count($this->comments_array) > 0 && is_array($this->comments_array) ? $this->comments_array : array();
+
 		$this->comments_status = get_transient($this->AWD_facebook->plugin_option_pref . 'cache_fb_comments_status' . $this->wp_post_id);
 		$this->comments_status = $this->comments_status > 0 ? $this->comments_status : 0;
 	}
@@ -202,11 +206,11 @@ class AWD_facebook_comments_base
 		if (isset($_REQUEST['action']))
 			$action = $_REQUEST['action'];
 		if ($this->comments_url != '') {
-			if ($this->wp_post_id != '') {
+			if ($this->wp_post_id != '') {				
 				//know if we want cache comments or not
-				if ($this->AWD_facebook->options['seo_comments']['cache'] != "0" && $action != 'clear_fb_cache') {
+				if ($this->AWD_facebook->options['seo_comments']['cache'] != "0" && $action != 'clear_fb_cache') {						
 					$this->get_comments_from_cache();
-					$must_fetch = $this->comments_status != 1 || ($this->comments_count > 0 && count($this->comments_array)) == 0;
+					$must_fetch = $this->comments_status != 1 || ($this->comments_count > 0  && count($this->comments_array)  == 0);
 					if ($must_fetch) {
 						$response = $this->get_comments_by_url();
 						$this->update_cache();
