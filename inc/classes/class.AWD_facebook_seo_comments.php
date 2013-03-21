@@ -168,6 +168,7 @@ Class AWD_facebook_seo_comments extends AWD_facebook_plugin_abstract
 	public function print_hidden_fbcomments($post_id = null)
 	{
 		echo $this->get_hidden_fbcomments($post_id);
+		return $post_id;
 	}
 	
 	/**
